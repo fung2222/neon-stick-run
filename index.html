@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="googlebot" content="noindex,nofollow">
+<meta name="theme-color" content="#05010f">
+<meta name="description" content="霓虹火柴人酷跑 NEON STICK RUN — 單手 3D 賽博朋克天台酷跑：12 關 + 無盡模式。One-thumb 3D cyberpunk rooftop parkour: 12 stages plus an endless run.">
+<title data-i18n="doc.title">NEON STICK RUN</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%2305010f%22/%3E%3Ccircle cx=%2219%22 cy=%226%22 r=%223%22 fill=%22none%22 stroke=%22%2300e5ff%22 stroke-width=%222%22/%3E%3Cpath d=%22M18 9l-3 9-6 2M15 18l4 4-2 7M15 18l-5 6-4 0M17 11l6 3 4-2M17 11l-6 1-3 3%22 fill=%22none%22 stroke=%22%2300e5ff%22 stroke-width=%222%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M2 28h28%22 stroke=%22%23ff2bd6%22 stroke-width=%222%22/%3E%3C/svg%3E">
+<link rel="stylesheet" href="./vendor/cyber-kit/ui/hud.css">
+<link rel="stylesheet" href="./css/game.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/cyber-kit/three/three.module.min.js",
+    "three/addons/": "./vendor/cyber-kit/three/addons/",
+    "cyber-kit": "./vendor/cyber-kit/kit.js",
+    "cyber-kit/": "./vendor/cyber-kit/"
+  }
+}
+</script>
+</head>
+<body class="in-menu">
+<canvas id="scene"></canvas>
+<div id="fx-flash"></div>
+<div id="scanlines"></div>
+
+<div id="hud" class="hidden">
+  <div class="run-top">
+    <div class="rt-dist"><b id="h-dist">0</b><small>m</small></div>
+    <div class="rt-mode" id="h-mode">STAGE 1</div>
+    <div class="rt-bar" id="h-prog"><i id="h-bar"></i></div>
+    <div class="rt-sub"><span id="h-sub">0:00.0</span><span class="rt-chips"><i class="chip-ico"></i><b id="h-chips" class="value">0</b></span></div>
+    <div class="rt-pows" id="h-pows"></div>
+  </div>
+  <div class="hud-buttons top">
+    <button id="btn-mute" class="icon-btn" data-i18n-attr="title:muteTip,aria-label:muteTip">
+      <svg class="ico-on" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke-width="2"/></svg>
+      <svg class="ico-off" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 9l6 6M22 9l-6 6" fill="none" stroke-width="2"/></svg>
+    </button>
+    <button id="btn-pause" class="icon-btn" data-i18n-attr="title:pauseTip,aria-label:pauseTip"><svg viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg></button>
+  </div>
+  <div id="hint" class="hint hidden"></div>
+  <div class="gesture-bar" id="gesture-bar">
+    <div class="g" id="g-jump"><svg viewBox="0 0 40 40"><circle cx="20" cy="26" r="5"/><path d="M20 18V6M14 11l6-6 6 6" class="line"/></svg><b data-i18n="gJumpK">撳 / ↑</b><small data-i18n="gJump"></small></div>
+    <div class="g" id="g-slide"><svg viewBox="0 0 40 40"><path d="M20 6v24M13 23l7 7 7-7" class="line"/><path d="M6 35h28" class="line thin"/></svg><b data-i18n="gSlideK"></b><small data-i18n="gSlide"></small></div>
+    <div class="g" id="g-dash"><svg viewBox="0 0 40 40"><path d="M6 20h26M25 13l7 7-7 7" class="line"/><path d="M6 13h8M6 27h8" class="line thin"/></svg><b data-i18n="gDashK"></b><small data-i18n="gDash"></small></div>
+  </div>
+  <div id="demo-tag" class="demo-tag hidden" data-i18n="kit.demo"></div>
+  <div id="fps" class="fps hidden">-- FPS</div>
+</div>
+
+<div id="screen-start" class="screen hero">
+  <div class="panel">
+    <div class="kicker" data-i18n="kicker"></div>
+    <h1 class="title glitch" id="title" data-i18n="title">霓虹火柴人酷跑</h1>
+    <div class="title-en" data-i18n="titleEn"></div>
+    <p class="tagline" data-i18n="tagline"></p>
+    <div id="trial-tag" class="trial-tag hidden"></div>
+    <div class="menu-btns">
+      <button class="neon-btn" id="btn-stage-go"><span data-i18n="stages"></span><small id="stage-go-sub">STAGE 1</small></button>
+      <button class="neon-btn alt" id="btn-endless"><span data-i18n="endless"></span><small data-i18n="endlessS"></small></button>
+      <div class="menu-row">
+        <button class="neon-btn ghost" id="btn-stages"><span data-i18n="selectStage"></span><small data-i18n="stagesS"></small></button>
+        <button class="neon-btn ghost" id="btn-locker"><span data-i18n="locker"></span><small data-i18n="lockerS"></small></button>
+      </div>
+    </div>
+    <div class="controls">
+      <div class="touch-hint" data-i18n="touchHint"></div>
+      <div class="keys-hint" data-i18n-html="keysHint"></div>
+    </div>
+    <div class="hi-line"><span data-i18n="bestDist"></span> <b id="m-best">—</b>　<span data-i18n="starsTotal"></span> <b id="m-stars">0</b>　<span data-i18n="chipsLbl"></span> <b id="m-chips">0</b></div>
+    <div class="link-row"><a href="./privacy.html" data-i18n="privacy"></a> · <button class="lang-btn" id="btn-lang"></button></div>
+  </div>
+</div>
+
+<div id="screen-stages" class="screen hidden">
+  <div class="panel wide">
+    <div class="kicker" data-i18n="kicker"></div>
+    <h2 class="title2" data-i18n="selectStage"></h2>
+    <div class="stage-grid" id="stage-grid"></div>
+    <button class="neon-btn ghost" id="btn-stages-back"><span data-i18n="back"></span><small data-i18n="backS"></small></button>
+  </div>
+</div>
+
+<div id="screen-locker" class="screen hidden">
+  <div class="panel wide locker">
+    <div class="kicker" id="l-wallet">0 CHIPS</div>
+    <h2 class="title2" data-i18n="locker"></h2>
+    <div class="lk-head" data-i18n="colours"></div>
+    <div class="lk-grid" id="lk-colors"></div>
+    <div class="lk-head" data-i18n="trails"></div>
+    <div class="lk-grid" id="lk-trails"></div>
+    <p class="lk-note" data-i18n="lockerNote"></p>
+    <button class="neon-btn ghost" id="btn-locker-back"><span data-i18n="back"></span><small data-i18n="backS"></small></button>
+  </div>
+</div>
+
+<div id="screen-pause" class="screen hidden">
+  <div class="panel small">
+    <h2 class="title2 glitch" data-i18n="paused">已暫停</h2>
+    <div class="title-en" data-i18n="pausedS"></div>
+    <button class="neon-btn" id="btn-resume"><span data-i18n="resume"></span><small data-i18n="resumeS"></small></button>
+    <button class="neon-btn ghost" id="btn-restart"><span data-i18n="restart"></span><small data-i18n="restartS"></small></button>
+    <button class="neon-btn ghost" id="btn-quit"><span data-i18n="quit"></span><small data-i18n="quitS"></small></button>
+    <button class="lang-btn" id="btn-lang2"></button>
+  </div>
+</div>
+
+<div id="screen-result" class="screen hidden">
+  <div class="panel">
+    <div class="kicker" id="res-kicker">STAGE 1</div>
+    <h2 class="title2 glitch" id="res-title" data-text="完成！">完成！</h2>
+    <div class="title-en" id="res-en"></div>
+    <div class="res-stars" id="res-stars"></div>
+    <div id="res-record" class="newrecord hidden" data-i18n="newBest"></div>
+    <div class="results" id="res-stats"></div>
+    <button class="neon-btn" id="btn-res-main"><span id="res-main-zh">下一關</span><small id="res-main-en">NEXT · ENTER</small></button>
+    <button class="neon-btn alt hidden" id="btn-revive"><span data-i18n="revive"></span><small id="revive-sub"></small></button>
+    <div class="menu-row">
+      <button class="neon-btn ghost" id="btn-res-stages"><span data-i18n="stagesBtn"></span><small data-i18n="stagesS"></small></button>
+      <button class="neon-btn ghost" id="btn-res-menu"><span data-i18n="menu"></span><small data-i18n="menuS"></small></button>
+    </div>
+  </div>
+</div>
+
+<div id="screen-trial" class="screen hidden">
+  <div class="panel">
+    <div class="kicker" data-i18n="silver"></div>
+    <h2 class="title2 glitch" data-i18n="trialTitle">試玩完結</h2>
+    <div class="title-en" id="trial-from"></div>
+    <p class="tagline center" data-i18n="trialBody"></p>
+    <button class="neon-btn" id="btn-hub"><span data-i18n="toHub"></span><small data-i18n="toHubS"></small></button>
+    <button class="neon-btn ghost" id="btn-trial-menu"><span data-i18n="menu"></span><small data-i18n="menuS"></small></button>
+  </div>
+</div>
+
+<div id="loading" class="loading"><div class="ld-text" data-i18n="loading">WARMING UP NEON LIMBS…</div></div>
+<script type="module" src="./js/main.js"></script>
+</body>
+</html>
