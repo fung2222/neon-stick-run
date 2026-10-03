@@ -29,7 +29,7 @@ i18n.add({
   next: ['下一關', 'NEXT STAGE'], nextS: ['NEXT · ENTER', 'ENTER'], retry: ['再跑一次', 'RETRY'], retryS: ['RETRY · ENTER', 'ENTER'], menu: ['主畫面', 'MAIN MENU'], menuS: ['MAIN MENU', '主畫面'], stagesBtn: ['關卡列表', 'STAGE LIST'],
   revive: ['原地復活', 'REVIVE'], reviveAd: ['睇廣告 · 每局一次', 'WATCH AD · ONCE PER RUN'], reviveFree: ['免費 · 每局一次', 'FREE · ONCE PER RUN'], revived: ['復活！', 'REVIVED!'],
   c_fell: ['跌落街', 'FELL TO THE STREET'], c_wall: ['撞牆', 'HIT A WALL'], c_laser: ['觸碰激光', 'ZAPPED BY A LASER'], c_drone: ['撞到無人機', 'HIT BY A DRONE'], c_pipe: ['撞到喉管', 'HIT A PIPE'], c_board: ['撞到廣告牌', 'HIT A BILLBOARD'],
-  starsGot: ['{n} / 3 星', '{n} / 3 STARS'], starRule: ['★ 完成 · ★★ 晶片 ≥ 50% · ★★★ 晶片 ≥ 80% 兼冇復活', '★ clear · ★★ chips ≥ 50% · ★★★ chips ≥ 80% and no revive'],
+  starsGot: ['{n} / 3 星', '{n} / 3 STARS'], starRule: ['★ 完成 · ★★／★★★ 晶片達標（★★★ 要冇復活）', '★ clear · ★★ / ★★★ hit the chip target (★★★ with no revive)'], chipTarget: ['★★ {a} · ★★★ {b}', '★★ {a} · ★★★ {b}'],
   milestone: ['{m} 米！', '{m} M!'], milestoneS: ['+25 晶片 · 新區域', '+25 CHIPS · NEW DISTRICT'],
   allClear: ['全部 12 關完成！無盡模式等緊你', 'All 12 stages cleared! Endless mode awaits'],
   p_magnet: ['磁石', 'MAGNET'], p_shield: ['護盾', 'SHIELD'], p_slow: ['慢鏡', 'SLOW-MO'],

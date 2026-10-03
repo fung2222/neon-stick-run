@@ -1,5 +1,5 @@
 // NEON STICK RUN — headless simulation tests (node tests/sim.test.mjs). No browser, no THREE.
-import { createRun, step, simulate, revive, speedAt, diffAt, runScore, starsOf, createBot, PATTERNS } from '../js/sim.js';
+import { createRun, step, simulate, revive, speedAt, diffAt, runScore, starsOf, starTargets, createBot, PATTERNS } from '../js/sim.js';
 import { STAGES, ENDLESS, TRIAL, STEP, COLORS, TRAILS } from '../js/config.js';
 
 let pass = 0, fail = 0;
@@ -33,6 +33,23 @@ t('autopilot can earn 3 stars on stage 1 and stars rule is sane', () => {
   const r = createRun({ stage: 1 }); const bot = createBot({}); while (!r.over && r.t < 200) { step(r, bot.act(r)); r.ev.length = 0; }
   ok(r.over.type === 'clear', 'clear'); const s = starsOf(r); ok(s >= 1 && s <= 3, 'stars ' + s);
   r.stats.chips = 0; ok(starsOf(r) === 1, 'no chips → 1 star'); r.stats.chips = r.w.chipTotal; r.stats.revives = 1; ok(starsOf(r) === 2, 'revive caps at 2 stars');
+});
+
+t('★★★ is reachable on every stage (chip-chasing autopilot, no revive)', () => {
+  const got = [];
+  for (let n = 1; n <= 12; n++) {
+    let r = null;   // a few chip-chasing styles (careful → greedy); the best clean clear counts
+    for (const cfg of [{ chipValue: 3 }, { chipValue: 1.5, horizon: 2 }, { chipValue: 3, every: 1 }]) {
+      const q = createRun({ stage: n }); const bot = createBot(cfg); while (!q.over && q.t < 300) { step(q, bot.act(q)); q.ev.length = 0; }
+      if (q.over && q.over.type === 'clear' && (!r || q.stats.chips > r.stats.chips)) r = q;
+      if (r && starsOf(r) === 3) break;
+    }
+    ok(r, `stage ${n}: chip-chasing autopilot never cleared`);
+    const [n2, n3] = starTargets(r); got.push(`${n}:${r.stats.chips}/${n3}`);
+    ok(r.over && r.over.type === 'clear', `stage ${n} cleared`); ok(n2 < n3 && n3 <= r.w.chipTotal, 'targets ordered');
+    ok(starsOf(r) === 3, `stage ${n}: ${r.stats.chips} chips < ★★★ target ${n3} of ${r.w.chipTotal}`);
+  }
+  console.log('   chips/★★★ ' + got.join(' '));
 });
 
 t('difficulty rises: sloppy player dies more in late stages', () => {

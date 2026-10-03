@@ -4,7 +4,8 @@
 
 **試玩 Play:** https://fung2222.github.io/neon-stick-run/ · **自動示範 Demo:** https://fung2222.github.io/neon-stick-run/?demo=1
 
-![NEON STICK RUN](docs/shots/play-portrait.webp)
+<p><img src="docs/shots/play-portrait.webp" width="200" alt="drone dash"> <img src="docs/shots/wallrun-portrait.webp" width="200" alt="wall-run"> <img src="docs/shots/grapple-portrait.webp" width="200" alt="grapple swing"> <img src="docs/shots/menu-portrait.webp" width="200" alt="menu"></p>
+<p><img src="docs/shots/play-desktop.webp" width="410" alt="desktop play"> <img src="docs/shots/menu-desktop.webp" width="410" alt="desktop menu"></p>
 
 ## 玩法 How to play
 一個發光火柴人喺落雨嘅九龍天台夜空飛奔。佢會自己向前跑，你只需要一隻手指：
@@ -18,7 +19,7 @@
 
 障礙：天台罅隙、矮喉管、激光圍欄（有啲會閃）、保安無人機、會崩塌嘅棚架、廣告牌。道具：數據晶片（貨幣）、磁石、護盾、慢鏡。
 
-- **關卡模式**：12 個 60–120 秒嘅短關卡，難度逐步上升，每關 1–3 粒星（★ 完成 · ★★ 晶片 ≥ 50% · ★★★ 晶片 ≥ 80% 兼冇復活）。
+- **關卡模式**：12 個 60–120 秒嘅短關卡，難度逐步上升，每關 1–3 粒星（★ 完成 · ★★／★★★ 晶片達到該關目標，★★★ 仲要冇復活；目標按關卡設定，喺結果畫面顯示）。
 - **無盡模式**：程式生成，速度不斷上升（有上限），每 500 米一個里程碑（+25 晶片、換區域顏色），記錄最遠距離。永遠冇終點。
 - **霓虹衣櫃**：用晶片買純裝飾嘅霓虹顏色同光軌（唔影響平衡）。
 - 失手可以**原地復活**一次（App 版睇獎勵廣告；網頁版免費）。
@@ -43,5 +44,6 @@ Three.js + [cyber-kit](https://github.com/fung2222/cyber-kit) v0.2.1（`vendor/c
 cd .. && python3 -m http.server 18950     # http://127.0.0.1:18950/neon-stick-run/
 node neon-stick-run/tests/sim.test.mjs
 python neon-stick-run/tests/smoke.py
+python neon-stick-run/tests/shots.py   # live 12-stage playtest + zh/en screenshots
 ```
 文件：[docs/HANDOFF.md](docs/HANDOFF.md) · [privacy.html](privacy.html)

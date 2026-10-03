@@ -113,3 +113,4 @@
 .menu-row .neon-btn small { letter-spacing: 2px; }
 @media (max-width: 760px) { .banner-sub { letter-spacing: 4px; font-size: 13px; } .banner-note { font-size: 13px; letter-spacing: 2px; padding: 0 12px; } }
 .results b { font-size: 22px; white-space: nowrap; }
+.results small.tgt { display: block; margin-top: 2px; font-family: var(--font-zh, sans-serif); font-size: 10px; letter-spacing: 1px; color: #fff35c; opacity: .8; font-weight: 400; }

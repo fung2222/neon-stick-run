@@ -13,21 +13,24 @@ export const PHYS = {
 
 // Patterns: the procedural building blocks (js/sim.js PATTERNS). Each stage enables a subset; `feature` (the stage's
 // signature move) is forced every 4th pattern so e.g. GRAPPLE LINE really is full of grapples.
-// Stars: 1 = clear · 2 = clear with ≥ 50 % chips · 3 = ≥ 80 % chips and no revive.
-export const STAR_CHIPS = [0.5, 0.8];
+// Stars: 1 = clear · 3 = the stage's chip target `s3` (share of all chips) and no revive · 2 = 60 % of that target.
+// s3 ≈ 90 % of the best a frame-perfect chip-chasing autopilot collects on that layout, rounded down to 5 % (tests/sim.test.mjs
+// proves ★★★ is reachable on every stage). Late stages put chips on alternative lines (over gaps, under billboards, on
+// wall-runs) that one route cannot all take, so a flat 80 % rule would make ★★★ nearly impossible on stages 9–12.
+export const STAR2_OF_3 = 0.6;
 export const STAGES = [
-  { id: 1,  len: 600,  v0: 9.0,  v1: 10.0, d: 0.08, theme: 0, feature: 'gap', pool: ['flat', 'gap', 'vault', 'step'] },
-  { id: 2,  len: 680,  v0: 9.4,  v1: 10.4, d: 0.14, theme: 0, feature: 'pipe', pool: ['flat', 'gap', 'vault', 'pipe', 'step', 'pipe'] },
-  { id: 3,  len: 760,  v0: 9.8,  v1: 10.8, d: 0.2,  theme: 3, feature: 'gapWide', pool: ['gap', 'gapWide', 'step', 'pipe', 'vault'] },
-  { id: 4,  len: 820,  v0: 10.2, v1: 11.2, d: 0.26, theme: 3, feature: 'drone', pool: ['gap', 'gapWide', 'drone', 'pipe', 'vault', 'step'] },
-  { id: 5,  len: 900,  v0: 10.6, v1: 11.8, d: 0.32, theme: 1, feature: 'laser', pool: ['gap', 'laser', 'drone', 'pipe', 'vault', 'gapWide', 'billboard'] },
-  { id: 6,  len: 980,  v0: 11.0, v1: 12.2, d: 0.38, theme: 1, feature: 'wall', pool: ['gap', 'wall', 'laser', 'drone', 'pipe', 'gapWide', 'billboard', 'combo'] },
-  { id: 7,  len: 1050, v0: 11.4, v1: 12.8, d: 0.44, theme: 2, feature: 'grapple', pool: ['gap', 'grapple', 'wall', 'laser', 'drone', 'billboard', 'combo'] },
-  { id: 8,  len: 1120, v0: 11.8, v1: 13.2, d: 0.5,  theme: 2, feature: 'collapse', pool: ['collapse', 'gap', 'grapple', 'pipe', 'drone', 'vault', 'gapWide', 'billboard', 'combo'] },
-  { id: 9,  len: 1200, v0: 12.2, v1: 13.8, d: 0.58, theme: 4, feature: 'billboard', pool: ['billboard', 'laserPulse', 'collapse', 'wall', 'drone', 'gapWide', 'pipe'] },
-  { id: 10, len: 1300, v0: 12.6, v1: 14.4, d: 0.66, theme: 4, pool: ['gap', 'gapWide', 'wall', 'grapple', 'collapse', 'laser', 'laserPulse', 'drone', 'pipe', 'billboard', 'billboard', 'vault', 'combo'] },
-  { id: 11, len: 1400, v0: 13.0, v1: 15.0, d: 0.74, theme: 5, pool: ['gapWide', 'wall', 'grapple', 'collapse', 'laserPulse', 'drone', 'droneLow', 'pipe', 'billboard', 'billboard', 'combo'] },
-  { id: 12, len: 1500, v0: 13.4, v1: 15.6, d: 0.82, theme: 5, pool: ['gapWide', 'wall', 'grapple', 'collapse', 'laserPulse', 'laser', 'drone', 'droneLow', 'pipe', 'billboard', 'billboard', 'combo', 'combo'] },
+  { id: 1,  len: 600,  v0: 9.0,  v1: 10.0, d: 0.08, s3: 0.80, theme: 0, feature: 'gap', pool: ['flat', 'gap', 'vault', 'step'] },
+  { id: 2,  len: 680,  v0: 9.4,  v1: 10.4, d: 0.14, s3: 0.80, theme: 0, feature: 'pipe', pool: ['flat', 'gap', 'vault', 'pipe', 'step', 'pipe'] },
+  { id: 3,  len: 760,  v0: 9.8,  v1: 10.8, d: 0.2,  s3: 0.80, theme: 3, feature: 'gapWide', pool: ['gap', 'gapWide', 'step', 'pipe', 'vault'] },
+  { id: 4,  len: 820,  v0: 10.2, v1: 11.2, d: 0.26, s3: 0.70, theme: 3, feature: 'drone', pool: ['gap', 'gapWide', 'drone', 'pipe', 'vault', 'step'] },
+  { id: 5,  len: 900,  v0: 10.6, v1: 11.8, d: 0.32, s3: 0.75, theme: 1, feature: 'laser', pool: ['gap', 'laser', 'drone', 'pipe', 'vault', 'gapWide', 'billboard'] },
+  { id: 6,  len: 980,  v0: 11.0, v1: 12.2, d: 0.38, s3: 0.75, theme: 1, feature: 'wall', pool: ['gap', 'wall', 'laser', 'drone', 'pipe', 'gapWide', 'billboard', 'combo'] },
+  { id: 7,  len: 1050, v0: 11.4, v1: 12.8, d: 0.44, s3: 0.80, theme: 2, feature: 'grapple', pool: ['gap', 'grapple', 'wall', 'laser', 'drone', 'billboard', 'combo'] },
+  { id: 8,  len: 1120, v0: 11.8, v1: 13.2, d: 0.5,  s3: 0.75, theme: 2, feature: 'collapse', pool: ['collapse', 'gap', 'grapple', 'pipe', 'drone', 'vault', 'gapWide', 'billboard', 'combo'] },
+  { id: 9,  len: 1200, v0: 12.2, v1: 13.8, d: 0.58, s3: 0.65, theme: 4, feature: 'billboard', pool: ['billboard', 'laserPulse', 'collapse', 'wall', 'drone', 'gapWide', 'pipe'] },
+  { id: 10, len: 1300, v0: 12.6, v1: 14.4, d: 0.66, s3: 0.70, theme: 4, pool: ['gap', 'gapWide', 'wall', 'grapple', 'collapse', 'laser', 'laserPulse', 'drone', 'pipe', 'billboard', 'billboard', 'vault', 'combo'] },
+  { id: 11, len: 1400, v0: 13.0, v1: 15.0, d: 0.74, s3: 0.60, theme: 5, pool: ['gapWide', 'wall', 'grapple', 'collapse', 'laserPulse', 'drone', 'droneLow', 'pipe', 'billboard', 'billboard', 'combo'] },
+  { id: 12, len: 1500, v0: 13.4, v1: 15.6, d: 0.82, s3: 0.70, theme: 5, pool: ['gapWide', 'wall', 'grapple', 'collapse', 'laserPulse', 'laser', 'drone', 'droneLow', 'pipe', 'billboard', 'billboard', 'combo', 'combo'] },
 ];
 export const ENDLESS_POOL = ['flat', 'gap', 'gapWide', 'step', 'vault', 'pipe', 'billboard', 'drone', 'droneLow', 'laser', 'laserPulse', 'wall', 'grapple', 'collapse', 'combo'];
 // Endless: speed and density rise forever but saturate (cyber-kit endlessCurve) so a run can never be "beaten" nor become impossible.

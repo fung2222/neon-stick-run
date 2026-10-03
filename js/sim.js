@@ -1,6 +1,6 @@
 // NEON STICK RUN — pure simulation: procedural rooftop course, runner physics, hazards, pickups, scoring and an
 // autopilot (receding-horizon search) used by ?demo=1 and the headless difficulty checks. No DOM, no THREE.
-import { PHYS, STEP, STAGES, ENDLESS, ENDLESS_POOL, SCORE, STAR_CHIPS, TRIAL } from './config.js';
+import { PHYS, STEP, STAGES, ENDLESS, ENDLESS_POOL, SCORE, STAR2_OF_3, TRIAL } from './config.js';
 import { makeRng } from './rng.js';
 import { endlessCurve, milestoneOf } from '../vendor/cyber-kit/core/endless.js';
 
@@ -179,10 +179,15 @@ export function createRun({ mode = 'stage', stage = 1, seed = null, trial = fals
     stats: { chips: 0, style: 0, smashed: 0, vaults: 0, walls: 0, graps: 0, jumps: 0, revives: 0, pows: 0, bonusChips: 0 } };
 }
 export const runScore = (r) => Math.floor(r.dist) * SCORE.metre + r.stats.chips * SCORE.chip + r.stats.style;
+/** chips needed for ★★ and ★★★ on this stage run: [n2, n3] */
+export function starTargets(r) {
+  const tot = r.w.chipTotal || 0, s3 = (r.w.S && r.w.S.s3) || 0.6;
+  return [Math.ceil(tot * s3 * STAR2_OF_3), Math.ceil(tot * s3)];
+}
 export function starsOf(r) {
   if (!r.over || r.over.type !== 'clear') return 0;
-  const k = r.w.chipTotal ? r.stats.chips / r.w.chipTotal : 1;
-  return 1 + (k >= STAR_CHIPS[0] ? 1 : 0) + (k >= STAR_CHIPS[1] && r.stats.revives === 0 ? 1 : 0);
+  const [n2, n3] = starTargets(r), c = r.stats.chips;
+  return 1 + (c >= n2 ? 1 : 0) + (c >= n3 && r.stats.revives === 0 ? 1 : 0);
 }
 
 const _plats = [], _obs = [];
@@ -342,15 +347,21 @@ export function step(run, inp) {
   if (p.y < P.killY * 0.55) { die(run, 'fell'); return; }
 
   run.dist = Math.max(run.dist, p.x);
-  if (run.look) return;
-  // pickups
   const cx = p.x, cy = p.y + (p.slideT > 0 ? 0.45 : 0.9);
   const R = p.magnetT > 0 ? P.magnetR : 1.2;
+  const chipHit = (k) => (k.x - cx) ** 2 + (k.y - cy) ** 2 < (p.magnetT > 0 ? P.magnetR * P.magnetR : (P.chipR + 0.15) ** 2) || (p.slideT <= 0 && Math.abs(k.x - cx) < 0.6 && k.y > p.y - 0.2 && k.y < p.y + pHeight(p) + 0.3);
+  if (run.look) {   // look-ahead clones never touch shared state; a chip-chasing bot only counts what it would collect
+    if (run.lc) for (let i = lowerBound(w.picks, cx - R - 0.5, 'x'); i < w.picks.length && w.picks[i].x <= cx + R + 0.5; i++) {
+      const k = w.picks[i]; if (k.type === 'chip' && !run.m.taken.has(k.id) && !run.lc.has(k.id) && chipHit(k)) run.lc.add(k.id);
+    }
+    return;
+  }
+  // pickups
   for (let i = lowerBound(w.picks, cx - R - 0.5, 'x'); i < w.picks.length && w.picks[i].x <= cx + R + 0.5; i++) {
     const k = w.picks[i]; if (run.m.taken.has(k.id)) continue;
     const d2 = (k.x - cx) ** 2 + (k.y - cy) ** 2;
     if (k.type === 'chip') {
-      if (d2 < (p.magnetT > 0 ? P.magnetR * P.magnetR : (P.chipR + 0.15) ** 2) || (p.slideT <= 0 && Math.abs(k.x - cx) < 0.6 && k.y > p.y - 0.2 && k.y < p.y + pHeight(p) + 0.3)) {
+      if (chipHit(k)) {
         run.m.taken.add(k.id); run.stats.chips++; run.ev.push({ type: 'chip', id: k.id, x: k.x, y: k.y });
       }
     } else if (d2 < (P.powR + 0.4) ** 2 || (Math.abs(k.x - cx) < 0.7 && k.y > p.y - 0.3 && k.y < p.y + pHeight(p) + 0.4)) {
@@ -388,9 +399,9 @@ const PROGS_G = [[], [[0, 'j', 0.02]], [[0, 'j', 0.12]], [[0, 'j', 0.24]], [[0, 
 const PROGS_A = [[], [[0, 'j', 0.14]], [[0, 'j', 0.02]], [[0, 'd']], [[0, 's']], [[0, 'd'], [0.32, 'j', 0.14]], [[0.15, 'j', 0.14]], [[0.3, 'j', 0.14]], [[0.5, 'j', 0.14]]];
 const PROGS_X = [[], [[0, 'j', 0.02]], [[0.2, 'j', 0.02]]];
 
-function cloneRun(run) {
+function cloneRun(run, chips = false) {
   const p = run.p;
-  return { ...run, look: true, ev: [], over: null, p: { ...p, grap: p.grap ? { ...p.grap } : null }, m: { taken: run.m.taken, smashed: new Set(run.m.smashed), collapse: new Map(run.m.collapse) } };
+  return { ...run, look: true, lc: chips ? new Set() : null, ev: [], over: null, p: { ...p, grap: p.grap ? { ...p.grap } : null }, m: { taken: run.m.taken, smashed: new Set(run.m.smashed), collapse: new Map(run.m.collapse) } };
 }
 export function progInput(prog, t, out) {
   out.press = false; out.slide = false; out.dash = false; out.held = false;
@@ -400,15 +411,17 @@ export function progInput(prog, t, out) {
   }
   return out;
 }
-function evalProg(run, prog, H) {
-  const r = cloneRun(run), inp = { press: false, held: false, slide: false, dash: false };
-  const n = Math.round(H / STEP);
-  for (let i = 0; i < n; i++) { step(r, progInput(prog, i * STEP, inp)); if (r.over) return r.over.type === 'dead' ? i * STEP : H + 1; }
-  return H;
+let _evalChips = 0;   // chips the last evalProg() would collect (only counted for the chip-chasing bot)
+function evalProg(run, prog, H, chips = false) {
+  const r = cloneRun(run, chips), inp = { press: false, held: false, slide: false, dash: false };
+  const n = Math.round(H / STEP); let res = H;
+  for (let i = 0; i < n; i++) { step(r, progInput(prog, i * STEP, inp)); if (r.over) { res = r.over.type === 'dead' ? i * STEP : H + 1; break; } }
+  _evalChips = r.lc ? r.lc.size : 0; return res;
 }
 const progCost = (prog, dashCost = 1.4) => prog.reduce((c, [, a, h]) => c + (a === 'j' ? 1 + (h || 0) : a === 'd' ? dashCost : 1.2), 0);
-/** Autopilot. dashCost < 1 makes it prefer smashing drones / billboards (used by ?demo=1 for show). */
-export function createBot({ horizon = 1.7, every = 2, noise = 0, rng = Math.random, dashCost = 1.4 } = {}) {
+/** Autopilot. dashCost < 1 makes it prefer smashing drones / billboards (used by ?demo=1 for show).
+ *  chipValue > 0 makes it chase chips (each chip in the horizon is worth chipValue input-cost units; star-target tests). */
+export function createBot({ horizon = 1.7, every = 2, noise = 0, rng = Math.random, dashCost = 1.4, chipValue = 0 } = {}) {
   const bot = { prog: null, t: 0, cool: 0, inp: { press: false, held: false, slide: false, dash: false }, plans: 0 };
   bot.act = (run) => {
     const p = run.p;
@@ -421,10 +434,10 @@ export function createBot({ horizon = 1.7, every = 2, noise = 0, rng = Math.rand
     bot.cool = every - 1; bot.plans++;
     const progs = p.mode === 'run' ? PROGS_G : p.mode === 'air' ? PROGS_A : PROGS_X;
     let best = progs[0], bestScore = evalProg(run, progs[0], horizon);
-    if (bestScore < horizon) {
+    if (bestScore < horizon || chipValue > 0) {
       bestScore = -1;
       for (const prog of progs) {
-        const s = evalProg(run, prog, horizon), sc = s >= horizon ? 100 - progCost(prog, dashCost) : s;
+        const s = evalProg(run, prog, horizon, chipValue > 0), sc = s >= horizon ? 100 - progCost(prog, dashCost) + chipValue * _evalChips : s;
         if (sc > bestScore) { bestScore = sc; best = prog; }
       }
     }

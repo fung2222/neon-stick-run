@@ -2,7 +2,7 @@
 import * as THREE from 'three';
 import { i18n, t, flags, createStore, createStage, ThemeController, THEMES, U, Particles, Shockwaves, FxState, NeonCity, CyberUI, Platform, createAds } from 'cyber-kit';
 import { GAME_ID, STEP, PHYS, STAGES, TRIAL, COLORS, TRAILS } from './config.js';
-import { createRun, step, extendWorld, revive as simRevive, createBot, simulate, runScore, starsOf, speedAt, platsNear, obsNear, topOf } from './sim.js';
+import { createRun, step, extendWorld, revive as simRevive, createBot, simulate, runScore, starsOf, starTargets, speedAt, platsNear, obsNear, topOf } from './sim.js';
 import { STAGE_NAMES } from './strings.js';
 import { StickRunner } from './runner.js';
 import { CourseView, Skyline, SpeedLines } from './world.js';
@@ -190,7 +190,7 @@ function showResult() {
   $('res-stars').innerHTML = [0, 1, 2].map((k) => `<i class="${k < stars ? 'on' : ''}" style="animation-delay:${0.25 + k * 0.28}s">★</i>`).join('');
   if (won) [0, 1, 2].forEach((k) => { if (k < stars) later(0.25 + k * 0.28, () => audio.star(k)); });
   const stats = stg
-    ? [[t('sTime'), fmtTime(r.t)], [t('sChips'), `${r.stats.chips}/${r.w.chipTotal}`], [t('sDist'), `${Math.floor(Math.min(r.dist, r.w.len))} m`], [t('sStyle'), r.stats.style]]
+    ? [[t('sTime'), fmtTime(r.t)], [t('sChips'), `${r.stats.chips}/${r.w.chipTotal}<small class="tgt">${t('chipTarget', { a: starTargets(r)[0], b: starTargets(r)[1] })}</small>`], [t('sDist'), `${Math.floor(Math.min(r.dist, r.w.len))} m`], [t('sStyle'), r.stats.style]]
     : [[t('sDist'), Math.floor(r.dist) + ' m'], [t('sChips'), r.stats.chips + (r.stats.bonusChips ? ` +${r.stats.bonusChips}` : '')], [t('sSpeed'), speedAt(r.w, r.dist).toFixed(1) + ' m/s'], [t('sScore'), runScore(r)]];
   $('res-stats').innerHTML = stats.map(([k, v]) => `<div><span>${k}</span><b>${v}</b></div>`).join('');
   const hasNext = won && r.stage < 12, trialStop = won && hub.trial && r.stage >= TRIAL.stages;

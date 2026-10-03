@@ -43,11 +43,14 @@ fixed simulation step so edges are delivered exactly once. Android back: pause �
 - Hazards: hitting a building face above mantle height (`wall`), pipe/board (`pipe`/`board`), laser (`laser`), drone (`drone`),
   falling (`fell`). Shield absorbs one hit (and smashes the drone/board). Dash through a drone/billboard = smash (+120 style).
 - Collapse scaffolds start sinking 0.35 s after you first land (`COLLAPSE_DELAY`), accelerating; keep moving.
-- Stars (`starsOf`): ★ clear · ★★ ≥ 50 % of the stage's chips · ★★★ ≥ 80 % chips and no revive.
+- Stars (`starsOf`, `starTargets`): ★ clear · ★★★ = the stage's chip target `s3` (60–80 % of its chips, set per stage in
+  `STAGES`) with no revive · ★★ = 60 % of that target. Targets ≈ 90 % of what a frame-perfect chip-chasing autopilot
+  (`createBot({chipValue})`) collects, rounded down; the result screen shows both targets. A flat 80 % rule made ★★★ unreachable on
+  stages 9–12 (chips sit on alternative lines), hence per-stage targets.
 - Score (endless): metres + chips×5 + style (vault 40, wall-run 80, swing 80, smash 120).
 - API: `createRun({mode:'stage'|'endless', stage, seed, trial})`, `step(run, {press, held, slide, dash})`, `revive(run)`,
   `runScore`, `starsOf`, `speedAt`, `diffAt`, `platsNear`, `obsNear`, `topOf`, `droneY`, `laserOn`,
-  `createBot({horizon, every, noise, rng, dashCost})`, `simulate({...})`. Events are pushed to `run.ev`
+  `createBot({horizon, every, noise, rng, dashCost, chipValue})`, `starTargets`, `simulate({...})`. Events are pushed to `run.ev`
   (jump, dbl, land{imp}, slide, slam, dash, vault, mantle, wall, wallJump, wallEnd, grap, grapEnd, chip, pow{kind}, smash{kind},
   shield, collapse, die{cause}, revive, milestone{n,m}, clear, trial) and consumed by `main.js` for FX/sound.
 - **Autopilot** (`createBot`): receding-horizon search over short input programs, simulated on a cheap clone with the exact same
@@ -117,7 +120,7 @@ QA hook `window.__nsr` (state object) with `api`: `state()`, `start(n)`, `endles
 `give(chips)`, `simulateStage(n, opts)`, `simulateEndless(dist, opts)`. URL `?turbo=N` speeds up real-time play (headless checks).
 
 ## 9. Tests
-- `node tests/sim.test.mjs` — 12 tests: monotonic stage table; autopilot clears all 12 stages in 60–120 s (63 → 100 s);
+- `node tests/sim.test.mjs` — 13 tests (incl. ★★★ reachable on every stage by a chip-chasing autopilot): monotonic stage table; autopilot clears all 12 stages in 60–120 s (63 → 100 s);
   every mechanic used, demo bot smashes; star rule; **difficulty curve** (sloppy bot with 0–0.42 s timing noise:
   deaths/km stages 1–3 ≈ 0–0.7 vs stages 9–12 ≈ 2.5–4.8); endless never ends, speed rises and saturates (10 → 21 m/s, 6 km
   without a death by the autopilot); bounded memory; trial stops at 800 m; determinism; jump physics; revive; scoring/cosmetics.
@@ -130,8 +133,8 @@ QA hook `window.__nsr` (state object) with `api`: `state()`, `start(n)`, `endles
 - `python tests/shots.py [url] [shots_dir]` — live-build playtest (every stage 1–12 started from the real page and cleared by the
   autopilot through `api.ff`) + curated screenshots at 412×915 and 1280×800 in zh-HK and en (menu, wall-run, grapple, drone dash,
   endless milestone, pause, collapse, laser, result); README copies go to `docs/shots/*.webp`. Fails on any console error.
-- Last verification 2026-10-03: `sim.test.mjs` 12/12 · `smoke.py` 52/52 · `shots.py` 12/12 stages + zero console errors.
-  Live stage clears (autopilot): 61 s → 97 s, ★★ on every stage (the bot does not chase chips; ★★★ = 80 % chips is a skill goal).
+- Last verification 2026-10-03: `sim.test.mjs` 13/13 · `smoke.py` 52/52 · `shots.py` 12/12 stages + zero console errors.
+  Live stage clears (autopilot): 61 s → 97 s, ★★ on every stage with the default survival bot; the chip-chasing bot reaches ★★★ on all 12.
 - QA `api.warp(x)` generates the endless course up to `x + 340` first (`extendWorld`), so trial / milestone checks can jump ahead.
 
 ## 10. Android packaging
