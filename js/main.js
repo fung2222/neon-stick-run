@@ -2,7 +2,7 @@
 import * as THREE from 'three';
 import { i18n, t, flags, createStore, createStage, ThemeController, THEMES, U, Particles, Shockwaves, FxState, NeonCity, CyberUI, Platform, createAds } from 'cyber-kit';
 import { GAME_ID, STEP, PHYS, STAGES, TRIAL, COLORS, TRAILS } from './config.js';
-import { createRun, step, revive as simRevive, createBot, simulate, runScore, starsOf, speedAt, platsNear, obsNear, topOf } from './sim.js';
+import { createRun, step, extendWorld, revive as simRevive, createBot, simulate, runScore, starsOf, speedAt, platsNear, obsNear, topOf } from './sim.js';
 import { STAGE_NAMES } from './strings.js';
 import { StickRunner } from './runner.js';
 import { CourseView, Skyline, SpeedLines } from './world.js';
@@ -468,7 +468,7 @@ S.api = {
     handleEvents(r); return true;
   },
   /** teleport (endless/trial checks) */
-  warp(x) { const r = S.run; const s = r.w.plats.find((q) => q.kind === 'roof' && q.x1 > x + 4) || r.w.cur; Object.assign(r.p, { x: Math.max(s.x0 + 1, x), y: s.y, vy: 0, mode: 'run', ground: s, dashT: 0, slideT: 0 }); r.dist = Math.max(r.dist, r.p.x); },
+  warp(x) { const r = S.run; extendWorld(r.w, x + 340); const s = r.w.plats.find((q) => q.kind === 'roof' && q.x1 > x + 4) || r.w.cur; Object.assign(r.p, { x: Math.max(s.x0 + 1, x), y: s.y, vy: 0, mode: 'run', ground: s, dashT: 0, slideT: 0 }); r.dist = Math.max(r.dist, r.p.x); },
   kill(cause = 'fell') { const r = S.run; if (r && !r.over) { r.p.mode = 'dead'; r.p.cause = cause; r.over = { type: 'dead', cause }; r.ev.push({ type: 'die', cause, x: r.p.x, y: r.p.y }); } },
   input: (kind) => gesture.inject(kind),
   give: (n) => save.addChips(n),

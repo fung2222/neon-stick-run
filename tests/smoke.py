@@ -35,7 +35,10 @@ def wait(pg, js, timeout=40, poll=0.25):
         except Exception: pass
         time.sleep(poll)
     return False
-def shot(pg, name): pg.screenshot(path=os.path.join(SHOTS, name)); print('  shot', name, flush=True)
+def shot(pg, name):
+    # the kit banner/hint fade on frame time; headless SwiftShader runs ~3 FPS, so wait until they are gone before a gameplay shot
+    wait(pg, "(() => { const b = document.querySelector('.banner'); return !b || b.classList.contains('hidden') || +getComputedStyle(b).opacity < 0.05 || !['play'].includes(__nsr.state); })()", 12)
+    pg.screenshot(path=os.path.join(SHOTS, name)); print('  shot', name, flush=True)
 def touch_swipe(pg, dx, dy, x=200, y=600):
     pg.evaluate("""([x, y, dx, dy]) => { const c = document.getElementById('scene'); const o = { pointerId: 7, pointerType: 'touch', isPrimary: true, bubbles: true, cancelable: true, button: 0 };
       c.dispatchEvent(new PointerEvent('pointerdown', { ...o, clientX: x, clientY: y }));

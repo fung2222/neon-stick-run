@@ -123,6 +123,8 @@ export function createWorld({ mode = 'stage', stage = 1, seed = 1 } = {}) {
   else genUntil(w, 320);
   return w;
 }
+/** make sure the course is generated at least up to x = upto (endless only; stages are fully generated up front) */
+export function extendWorld(w, upto) { if (w.len === Infinity && w.cur.x1 < upto) genUntil(w, upto); }
 function genUntil(w, upto) {
   const r = w.rng;
   while (w.cur.x1 < upto) {
