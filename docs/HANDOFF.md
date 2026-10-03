@@ -1,6 +1,6 @@
 # NEON STICK RUN 霓虹火柴人酷跑 — Handoff
 
-Status: **web build v1.0** · live https://fung2222.github.io/neon-stick-run/ · auto-demo `?demo=1` · not yet packaged for Android.
+Status: **web build v1.0 — complete** (verified 2026-10-03) · live https://fung2222.github.io/neon-stick-run/ · auto-demo `?demo=1` · in the CYBER ARCADE `games.json` as tier Silver · not yet packaged for Android.
 Series rules: `fung2222/cyber-arcade/docs/ARCADE-HANDOFF.md` (master rules) and `docs/MONETIZATION.md` (tiers / hub contract). Tier: **Silver**.
 Everything here was written from scratch for this game on cyber-kit **v0.2.1** (vendored). No code from any older repo.
 
@@ -127,6 +127,12 @@ QA hook `window.__nsr` (state object) with `api`: `state()`, `start(n)`, `endles
   stage-3 clear → unlock, endless 800 m prompt in en + zh), Silver `ads=0` (no break), `cyber.entitlement` gold, demo
   autoplay/no saves/stage advance, **zero console errors**. Screenshots → `/workspace/shots/neon-stick-run/`.
 - Headless SwiftShader runs ≈ 3 FPS — checks poll state and use `api.ff()`; phones run at 60 FPS with kit auto-quality.
+- `python tests/shots.py [url] [shots_dir]` — live-build playtest (every stage 1–12 started from the real page and cleared by the
+  autopilot through `api.ff`) + curated screenshots at 412×915 and 1280×800 in zh-HK and en (menu, wall-run, grapple, drone dash,
+  endless milestone, pause, collapse, laser, result); README copies go to `docs/shots/*.webp`. Fails on any console error.
+- Last verification 2026-10-03: `sim.test.mjs` 12/12 · `smoke.py` 52/52 · `shots.py` 12/12 stages + zero console errors.
+  Live stage clears (autopilot): 61 s → 97 s, ★★ on every stage (the bot does not chase chips; ★★★ = 80 % chips is a skill goal).
+- QA `api.warp(x)` generates the endless course up to `x + 340` first (`extendWorld`), so trial / milestone checks can jump ahead.
 
 ## 10. Android packaging
 Same recipe as the other CYBER games (Capacitor 8 + `@capacitor-community/admob` v8, AdMob test units until release, UMP consent).
