@@ -87,7 +87,9 @@ shows up ahead (`maybeHint`). `?reset=1` wipes saves; `?unlock=all` unlocks all 
 - `ads`: the `ads` param wins; else `tier === 'free'`; standalone web defaults to allowed (the web build shows no real ads anyway).
 - `trial=1` → **stages 1–3 only** and **endless stops at 800 m** (`TRIAL` in config). Stage 4+ cards are locked with a trial label;
   tapping one, clearing stage 3 ("next" becomes "unlock in hub"), or reaching 800 m shows the bilingual `#screen-trial` prompt.
-  Its main button calls `returnToHub()`: same-origin `?ret=` URL if given → `history.back()` when launched by the hub → `../cyber-arcade/`.
+  Its main button calls `returnToHub()`: it first writes `localStorage cyber.arcade.openStore = {game, t}` (the hub then opens its
+  unlock sheet for this game), then same-origin `?ret=` URL if given → `history.back()` when launched by the hub (the hub sends no
+  referrer; a foreign referrer blocks going back) → `../cyber-arcade/`. Round trip verified against the hub prototype 2026-10-03.
   The game never hard-codes any hub path. Trial runs per day are counted by the hub, not the game (`trialLeft` is display-only).
 - These values are user-editable on the web; they only gate ads and trial caps. Real gating = Play Billing in the app build.
 

@@ -20,10 +20,14 @@ export function readHub(search = location.search) {
   return { fromHub, tier, ads, trial, trialLeft, caps: trial ? { ...TRIAL } : null, entitlement: ent };
 }
 
-/** Back to the hub that launched us. Uses a same-origin ?ret= URL if given, else history (hub=1), else the public arcade root. */
+/** Back to the hub that launched us (trial unlock button). Uses a same-origin ?ret= URL if given, else history (hub=1), else the public arcade root. */
 export function returnToHub(hub, search = location.search) {
+  // leave a note so the hub opens its unlock sheet for this game when we land back on it (cyber-arcade js/hub.js RETURN_KEY)
+  try { localStorage.setItem('cyber.arcade.openStore', JSON.stringify({ game: 'neon-stick-run', t: Date.now() })); } catch { /* storage blocked */ }
   const ret = new URLSearchParams(search).get('ret');
   if (ret) { try { const u = new URL(ret, location.href); if (u.origin === location.origin) { location.href = u.href; return 'ret'; } } catch { /* bad url */ } }
-  if (hub.fromHub && history.length > 1 && document.referrer && new URL(document.referrer).origin === location.origin) { history.back(); return 'back'; }
+  // the hub page sends no referrer (meta referrer=no-referrer), so only refuse to go back when a referrer proves we came from elsewhere
+  const foreign = document.referrer && (() => { try { return new URL(document.referrer).origin !== location.origin; } catch { return true; } })();
+  if (hub.fromHub && history.length > 1 && !foreign) { history.back(); return 'back'; }
   location.href = new URL('../cyber-arcade/', location.href).href; return 'root';
 }
