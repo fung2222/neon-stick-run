@@ -371,7 +371,7 @@ function frameCamera(dt, now, instant = false) {
   const g = groundUnder(r), want = p.mode === 'dead' ? p.y : Math.max(Math.min(p.y, g + 1.5), p.y - 3.2, g);
   S.camY += (want - S.camY) * (instant ? 1 : 1 - Math.exp(-dt * (p.y < S.camY - 2 ? 6 : 2.6)));
   const dist = lerp(P.dist, L.dist, kA) * (menu ? 1.1 : 1) + vk * 1.5;
-  const ahead = lerp(P.ahead, L.ahead, kA) + vk * 1.5 + (menu ? lerp(0, 3.5, kA) : 0);
+  const ahead = lerp(P.ahead, L.ahead, kA) + vk * 1.5 + (menu ? lerp(0, -11.5, kA) : 0);   // landscape menu: runner sits right of the left-hand menu panel
   const lx = p.x + ahead, ly = S.camY + lerp(P.look, L.look, kA) + (menu ? lerp(-2.4, 0, kA) : 0);
   tL.set(lx, ly, 0); tP.set(lx - Math.sin(yaw) * dist, ly + lerp(P.h, L.h, kA) + vk * 0.6, Math.cos(yaw) * dist);
   const k = instant ? 1 : 1 - Math.exp(-dt * 7);

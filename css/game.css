@@ -41,6 +41,8 @@
 .screen.hero .menu-row { justify-content: flex-start; }
 .menu-row .neon-btn { min-width: 0; flex: 1 1 140px; margin: 10px 0 0; }
 .screen.hero .menu-row .neon-btn { margin: 0; }
+.menu-btns .menu-row { width: 100%; max-width: 300px; flex-wrap: nowrap; }
+.menu-btns .menu-row .neon-btn { min-width: 0; width: auto; flex: 1 1 0; }
 .neon-btn.alt { border-color: color-mix(in srgb, var(--c3) 80%, transparent); box-shadow: 0 0 16px color-mix(in srgb, var(--c3) 45%, transparent), inset 0 0 18px color-mix(in srgb, var(--c3) 20%, transparent); }
 .neon-btn.alt small { color: var(--c3); }
 .screen.hero .neon-btn.alt { animation: none; }
@@ -92,7 +94,7 @@
   .tagline { font-size: 12.5px; line-height: 1.55; margin-bottom: 10px; }
   .menu-btns, .menu-btns .neon-btn { width: 100%; min-width: 0; }
   .menu-btns .neon-btn { padding: 11px 16px; }
-  .menu-btns .menu-row { flex-wrap: nowrap; width: 100%; }
+  .menu-btns .menu-row { max-width: none; }
   .menu-btns .menu-row .neon-btn { width: auto; flex: 1 1 0; padding: 11px 8px; }
   .controls { margin-top: 10px; line-height: 1.6; font-size: 12px; } .keys-hint { display: none; }
   .hi-line { margin-top: 8px; font-size: 11px; letter-spacing: 1px; } .hi-line b { font-size: 15px; margin-left: 3px; }
