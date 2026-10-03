@@ -37,7 +37,7 @@
 `?demo=1` 自動示範（`&level=N`、`&mode=endless`）· `?lang=en|zh` · `?fps=1` · `?quality=low` · `?adsim=1` · `?reset=1` · `?mute=1`
 
 ## 技術 Tech
-Three.js + [cyber-kit](https://github.com/fung2222/cyber-kit) v0.2.1（`vendor/cyber-kit/`），冇 build step。固定步長（1/90 s）純模擬（`js/sim.js`，可以喺 Node 測試）、程序生成天台、程序動畫火柴人骨架、全部音效即時合成。所有美術、文字同音效都係原創。
+Three.js + [cyber-kit](https://github.com/fung2222/cyber-kit) v0.3.0（`vendor/cyber-kit/`），冇 build step。固定步長（1/90 s）純模擬（`js/sim.js`，可以喺 Node 測試）、程序生成天台、程序動畫火柴人骨架、全部音效即時合成。所有美術、文字同音效都係原創。
 
 ## 開發 Development
 ```bash

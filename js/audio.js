@@ -1,7 +1,7 @@
 // NEON STICK RUN sounds — all synthesised live (cyber-kit SynthAudio + 'drive' synthwave music). No audio files.
 import { SynthAudio, mtof } from 'cyber-kit';
 export class RunAudio extends SynthAudio {
-  constructor(store) { super({ store, music: { bpm: 112, bpmPerLevel: 2, bpmMax: 128, roots: [45, 41, 48, 43], chords: [[0, 3, 7], [0, 4, 7], [0, 4, 7], [0, 3, 7]], kick: 'four', hats: true, bass: 'eighths', arp: true, pad: 0.024, gain: 0.38 } }); }
+  constructor(store) { super({ store, music: { bpm: 112, bpmPerLevel: 2, bpmMax: 128, roots: [45, 41, 48, 43], chords: [[0, 3, 7], [0, 4, 7], [0, 4, 7], [0, 3, 7]], kick: 'four', hats: true, bass: 'eighths', arp: true, pad: 0.024, gain: 0.38, trimDb: 3.8 } }); }
   jump() { this.osc({ type: 'sine', f: 320, f2: 720, dur: 0.11, vol: 0.06 }); this.noiseHit({ dur: 0.06, vol: 0.025, type: 'highpass', f: 4000 }); }
   dbl() { this.osc({ type: 'triangle', f: 520, f2: 1240, dur: 0.16, vol: 0.06, send: 0.3 }); this.whoosh(0.04); }
   land(k = 1) { this.noiseHit({ dur: 0.08 + k * 0.05, vol: 0.05 + k * 0.05, type: 'lowpass', f: 900, f2: 120 }); this.osc({ type: 'sine', f: 110, f2: 50, dur: 0.1, vol: 0.06 * k }); }

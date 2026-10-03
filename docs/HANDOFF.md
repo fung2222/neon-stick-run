@@ -113,7 +113,7 @@ js/gesture.js     one-thumb gestures + keyboard
 js/hub.js         hub params / entitlement / return-to-hub
 js/strings.js     zh-HK / en table (+ STAGE_NAMES)
 js/main.js        states, loop, events → FX, camera, HUD, saves, ads, QA API
-vendor/cyber-kit  cyber-kit v0.2.1 (do not edit here; update from the kit repo)
+vendor/cyber-kit  cyber-kit v0.3.0 (do not edit here; update from the kit repo)
 privacy.html      bilingual privacy policy
 tests/            sim.test.mjs (Node), smoke.py (Playwright)
 ```
@@ -148,3 +148,7 @@ Suggested app id `hk.fung2222.neonstickrun`, portrait. In the arcade app it is l
 - Difficulty was tuned with bots, not humans — watch real players on stages 9–12 (billboards are the main killer).
 - No haptics settings toggle yet (kit `Platform.haptic` is on by default). No daily challenge / ghost race yet.
 - Ideas: ghost of your best run, daily seed, more cosmetics (head shapes), weather variants per stage, iOS/Android share card.
+
+## Audio loudness + glow (cyber-kit v0.3.0, 2026-10-03)
+- Audio: kit loudness model (music ≈ −20 LUFS integrated, median SFX ≈ music level). This game: custom preset trimDb 3.8, sfxTrimDb 0 in `js/audio.js`. Re-measure after changing sounds: `python3 ../cyber-kit/tests/loudness.py http://127.0.0.1:18940 <dir>:<AudioClass> --kit /cyber-kit` (see kit docs/API.md "Loudness"). Keep music −20 ± 1 LUFS and SFX/BGM 0 ± 2 dB.
+- Glow: `createStage` values are the HIGH look; default is LOW (crisp). Shared pref `localStorage cyber.glow`, `?glow=low|high`. Pause screen has a GLOW: LOW/HIGH button (`ui.glowToggle(stage)`).
