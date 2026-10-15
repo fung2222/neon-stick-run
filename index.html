@@ -52,28 +52,39 @@
   <div id="fps" class="fps hidden">-- FPS</div>
 </div>
 
-<div id="screen-start" class="screen hero">
-  <div class="panel">
-    <div class="kicker" data-i18n="kicker"></div>
-    <h1 class="title glitch" id="title" data-i18n="title">霓虹火柴人酷跑</h1>
-    <div class="title-en" data-i18n="titleEn"></div>
-    <p class="tagline" data-i18n="tagline"></p>
-    <div id="trial-tag" class="trial-tag hidden"></div>
-    <div class="menu-btns">
-      <button class="neon-btn" id="btn-stage-go"><span data-i18n="stages"></span><small id="stage-go-sub">STAGE 1</small></button>
-      <button class="neon-btn alt" id="btn-endless"><span data-i18n="endless"></span><small data-i18n="endlessS"></small></button>
-      <div class="menu-row">
-        <button class="neon-btn ghost" id="btn-stages"><span data-i18n="selectStage"></span><small data-i18n="stagesS"></small></button>
-        <button class="neon-btn ghost" id="btn-locker"><span data-i18n="locker"></span><small data-i18n="lockerS"></small></button>
+<div id="screen-start" class="screen hero menu-home">
+  <div class="menu-top">
+    <div class="menu-top-left">
+      <button type="button" class="neon-btn ghost hidden" id="btn-arcade-menu"><span data-i18n="kit.arcadeMenu">選單 · 其他遊戲</span><small data-i18n="kit.arcadeMenuS">OTHER GAMES</small></button>
+      <button class="neon-btn ghost" id="btn-stages"><span data-i18n="selectStage"></span><small data-i18n="stagesS"></small></button>
+      <button class="neon-btn ghost" id="btn-locker"><span data-i18n="locker"></span><small data-i18n="lockerS"></small></button>
+    </div>
+    <div class="menu-top-right">
+      <a class="menu-privacy" href="./privacy.html" data-i18n="privacy"></a>
+      <button class="lang-btn" id="btn-lang"></button>
+    </div>
+  </div>
+  <div class="menu-body">
+    <div class="menu-brand">
+      <div class="kicker" data-i18n="kicker"></div>
+      <h1 class="title glitch" id="title" data-i18n="title">霓虹火柴人酷跑</h1>
+      <div class="title-en" data-i18n="titleEn"></div>
+      <p class="tagline" data-i18n="tagline"></p>
+      <div id="trial-tag" class="trial-tag hidden"></div>
+    </div>
+    <div class="menu-cta">
+      <div class="menu-btns">
+        <button class="neon-btn" id="btn-stage-go"><span data-i18n="stages"></span><small id="stage-go-sub">STAGE 1</small></button>
+        <button class="neon-btn alt" id="btn-endless"><span data-i18n="endless"></span><small data-i18n="endlessS"></small></button>
       </div>
     </div>
-    <div class="controls">
-      <div class="touch-hint" data-i18n="touchHint"></div>
-      <div class="keys-hint" data-i18n-html="keysHint"></div>
+    <div class="menu-meta">
+      <div class="controls">
+        <div class="touch-hint" data-i18n="touchHint"></div>
+        <div class="keys-hint" data-i18n-html="keysHint"></div>
+      </div>
+      <div class="hi-line"><span data-i18n="bestDist"></span> <b id="m-best">—</b>　<span data-i18n="starsTotal"></span> <b id="m-stars">0</b>　<span data-i18n="chipsLbl"></span> <b id="m-chips">0</b></div>
     </div>
-    <div class="hi-line"><span data-i18n="bestDist"></span> <b id="m-best">—</b>　<span data-i18n="starsTotal"></span> <b id="m-stars">0</b>　<span data-i18n="chipsLbl"></span> <b id="m-chips">0</b></div>
-        <button type="button" class="neon-btn ghost hidden" id="btn-arcade-menu"><span data-i18n="kit.arcadeMenu">選單 · 其他遊戲</span><small data-i18n="kit.arcadeMenuS">OTHER GAMES</small></button>
-    <div class="link-row"><a href="./privacy.html" data-i18n="privacy"></a> · <button class="lang-btn" id="btn-lang"></button></div>
   </div>
 </div>
 

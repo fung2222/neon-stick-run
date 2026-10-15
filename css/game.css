@@ -115,4 +115,10 @@
 .results b { font-size: 22px; white-space: nowrap; }
 .results small.tgt { display: block; margin-top: 2px; font-family: var(--font-zh, sans-serif); font-size: 10px; letter-spacing: 1px; color: #fff35c; opacity: .8; font-weight: 400; }
 
-/* hub return */ #btn-arcade-menu { margin-top: 10px; animation: none; }
+/* hub return */ #btn-arcade-menu { margin-top: 0; animation: none; }
+
+.menu-home .menu-btns { width: fit-content; }
+.menu-home.hero .menu-btns { align-items: stretch; }
+@media (max-width: 760px) {
+  .menu-home .menu-btns, .menu-home .menu-btns .neon-btn { width: 100%; min-width: 0; }
+}
