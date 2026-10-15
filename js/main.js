@@ -7,7 +7,7 @@ import { STAGE_NAMES } from './strings.js';
 import { StickRunner } from './runner.js';
 import { CourseView, Skyline, SpeedLines } from './world.js';
 import { RunAudio } from './audio.js';
-import { readHub, returnToHub } from './hub.js';
+import { readHub, returnToHub, shouldShowArcadeMenu } from './hub.js';
 import { createGesture } from './gesture.js';
 
 const $ = (id) => document.getElementById(id);
@@ -277,6 +277,8 @@ ui.on('btn-pause', pause); ui.on('btn-mute', () => { audio.init(); ui.setMuted(a
 ui.on('btn-resume', resume); ui.on('btn-restart', () => { retry(); }); ui.on('btn-quit', () => { showMenu(); });
 ui.on('btn-res-main', resultMain); ui.on('btn-res-menu', resultMenu); ui.on('btn-res-stages', resultStages); ui.on('btn-revive', doRevive);
 ui.on('btn-hub', () => returnToHub(hub)); ui.on('btn-trial-menu', showMenu);
+ui.on('btn-arcade-menu', () => { audio.back(); returnToHub(hub, { openStore: false }); });
+if (shouldShowArcadeMenu(hub)) { const b = document.getElementById('btn-arcade-menu'); if (b) b.classList.remove('hidden'); }
 Platform.onBack(() => {
   if (ui.closeModal()) return true;
   if (S.state === 'play' || S.state === 'intro') { pause(); return true; } if (S.state === 'paused') { resume(); return true; }
