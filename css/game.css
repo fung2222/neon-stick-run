@@ -38,7 +38,7 @@
 .menu-btns { display: flex; flex-direction: column; gap: 10px; align-items: stretch; width: fit-content; }
 .menu-btns .neon-btn { min-width: 300px; }
 .menu-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
-.screen.hero .menu-row { justify-content: flex-start; }
+.screen.hero .menu-row { justify-content: center; }
 .menu-row .neon-btn { min-width: 0; flex: 1 1 140px; margin: 10px 0 0; }
 .screen.hero .menu-row .neon-btn { margin: 0; }
 .menu-btns .menu-row { flex-wrap: nowrap; }
@@ -122,3 +122,6 @@
 @media (max-width: 760px) {
   .menu-home .menu-btns, .menu-home .menu-btns .neon-btn { width: 100%; min-width: 0; }
 }
+
+.menu-home .menu-btns { margin-left: auto; margin-right: auto; }
+.menu-home .menu-sec .neon-btn { animation: none; }
