@@ -480,7 +480,7 @@ S.api = {
 };
 
 // ------------------------------------------------------------------ boot
-i18n.bindToggle($('btn-lang')); i18n.bindToggle($('btn-lang2'));
+i18n.bindToggle($('btn-lang2')); // start lang folded into settings gear
 
 ui.mountHowto({
   privacyUrl: './privacy.html',
