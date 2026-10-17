@@ -483,6 +483,7 @@ S.api = {
 i18n.bindToggle($('btn-lang')); i18n.bindToggle($('btn-lang2'));
 
 ui.mountHowto({
+  privacyUrl: './privacy.html',
   onOpen: () => { try { audio.click(); } catch (_) {} },
   getContent: () => ({
     kicker: 'NEON STICK RUN',
@@ -493,6 +494,11 @@ ui.mountHowto({
     ],
   }),
 });
+ui.mountSettings({
+  audio, stage,
+  onOpen: () => { try { audio.click(); } catch (_) {} },
+});
+
 
 i18n.onChange(() => {
   refreshMenu(); if (S.state === 'stages') buildStageGrid(); if (S.state === 'locker') buildLocker();
