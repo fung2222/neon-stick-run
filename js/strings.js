@@ -46,4 +46,7 @@ i18n.add({
   trialTag: ['試玩 · 第 1–3 關 · 無盡 800 米', 'TRIAL · stages 1–3 · endless 800 m'], trialLeft: ['今日仲有 {n} 次試玩', '{n} trial runs left today'],
   trialTitle: ['試玩完結', 'TRIAL COMPLETE'], trialBody: ['試玩只包括第 1–3 關同無盡模式頭 800 米。返大廳解鎖銀級，就可以玩晒 12 關同無限無盡模式（包括日後加入銀級嘅所有新遊戲）。', 'The trial covers stages 1–3 and the first 800 m of endless. Unlock Silver in the hub to get all 12 stages and unlimited endless (plus every future game added to Silver).'],
   toHub: ['返大廳解鎖', 'UNLOCK IN HUB'], toHubS: ['BACK TO ARCADE', '返回大廳'], silver: ['銀級遊戲', 'SILVER GAME'],
+
+  'help.rules': ['<ul><li>橫向／跑道跑酷：跳、滑、攻擊障礙同敵人。</li><li>收集道具、挑戰關卡同無盡分。</li><li>撞致命障礙會結束呢一鋪。</li></ul>', '<ul><li>Neon runner: jump, slide, strike obstacles and foes.</li><li>Grab pickups; clear stages and chase endless scores.</li><li>Fatal hits end the run.</li></ul>'],
+  'help.controls': ['<ul><li>跳躍／滑行／攻擊：螢幕掣或鍵盤（見主畫面）</li><li>暫停 <kbd>P</kbd> · 靜音 <kbd>M</kbd></li></ul>', '<ul><li>Jump / slide / attack: on-screen buttons or keyboard (see home)</li><li>Pause <kbd>P</kbd> · Mute <kbd>M</kbd></li></ul>'],
 });

@@ -481,6 +481,19 @@ S.api = {
 
 // ------------------------------------------------------------------ boot
 i18n.bindToggle($('btn-lang')); i18n.bindToggle($('btn-lang2'));
+
+ui.mountHowto({
+  onOpen: () => { try { audio.click(); } catch (_) {} },
+  getContent: () => ({
+    kicker: 'NEON STICK RUN',
+    title: t('kit.howto'),
+    sections: [
+      { heading: t('kit.rules'), body: t('help.rules') },
+      { heading: t('kit.controls'), body: t('help.controls') },
+    ],
+  }),
+});
+
 i18n.onChange(() => {
   refreshMenu(); if (S.state === 'stages') buildStageGrid(); if (S.state === 'locker') buildLocker();
   if (S.run && (S.state === 'play' || S.state === 'intro' || S.state === 'paused')) hudSetup();
