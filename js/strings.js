@@ -10,7 +10,7 @@ i18n.add({
   loading: ['霓虹四肢熱身中…', 'WARMING UP NEON LIMBS…'],
   kicker: ['NEON KOWLOON · 天台酷跑', 'NEON KOWLOON · ROOFTOP FREE-RUN'],
   title: ['霓虹火柴人酷跑', 'NEON STICK RUN'], titleEn: ['NEON STICK RUN', '霓虹火柴人酷跑'],
-  tagline: ['喺落雨嘅九龍天台飛奔！一隻手指：撳／上掃＝跳（長按跳更高），下掃＝滑鏟，右掃＝衝刺撞爆無人機。', 'Free-run the rainy rooftops of Kowloon! One thumb: tap / swipe up = jump (hold for higher), swipe down = slide, swipe right = dash through drones.'],
+  tagline: ['喺落雨嘅九龍天台飛奔！跳、滑鏟、衝刺 —— 跑得越遠分數越高。', 'Free-run the rainy rooftops of Kowloon — jump, slide, dash. Go farther for a higher score.'],
   stages: ['關卡', 'STAGES'], stagesS: ['12 STAGES', '12 個關卡'], endless: ['無盡模式', 'ENDLESS'], endlessS: ['ENDLESS RUN · ENTER', '永無終點 · ENTER'],
   locker: ['霓虹衣櫃', 'NEON LOCKER'], lockerS: ['SKINS', '外觀'],
   bestDist: ['最遠', 'BEST'], starsTotal: ['星星', 'STARS'], chipsLbl: ['晶片', 'CHIPS'], privacy: ['私隱政策', 'Privacy policy'],
@@ -48,5 +48,5 @@ i18n.add({
   toHub: ['返大廳解鎖', 'UNLOCK IN HUB'], toHubS: ['BACK TO ARCADE', '返回大廳'], silver: ['銀級遊戲', 'SILVER GAME'],
 
   'help.rules': ['<ul><li>橫向／跑道跑酷：跳、滑、攻擊障礙同敵人。</li><li>收集道具、挑戰關卡同無盡分。</li><li>撞致命障礙會結束呢一鋪。</li></ul>', '<ul><li>Neon runner: jump, slide, strike obstacles and foes.</li><li>Grab pickups; clear stages and chase endless scores.</li><li>Fatal hits end the run.</li></ul>'],
-  'help.controls': ['<ul><li>跳躍／滑行／攻擊：螢幕掣或鍵盤（見主畫面）</li><li>暫停 <kbd>P</kbd> · 靜音 <kbd>M</kbd></li></ul>', '<ul><li>Jump / slide / attack: on-screen buttons or keyboard (see home)</li><li>Pause <kbd>P</kbd> · Mute <kbd>M</kbd></li></ul>'],
+  'help.controls': ['<ul><li>手機：撳／上掃＝跳（長按更高）· 半空再撳＝二段跳 · 下掃＝滑鏟 · 右掃＝衝刺</li><li>鍵盤：<kbd>Space</kbd>/<kbd>↑</kbd> 跳（按住更高）　<kbd>↓</kbd> 滑鏟　<kbd>→</kbd>/<kbd>Shift</kbd> 衝刺</li><li>暫停 <kbd>P</kbd> · 靜音 <kbd>M</kbd></li></ul>', '<ul><li>Touch: tap / swipe ↑ = jump (hold = higher) · mid-air tap = double jump · swipe ↓ = slide · swipe → = dash</li><li>Keys: <kbd>Space</kbd>/<kbd>↑</kbd> jump (hold = higher)　<kbd>↓</kbd> slide　<kbd>→</kbd>/<kbd>Shift</kbd> dash</li><li>Pause <kbd>P</kbd> · Mute <kbd>M</kbd></li></ul>'],
 });
