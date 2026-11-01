@@ -7,7 +7,7 @@ import { STAGE_NAMES } from './strings.js';
 import { StickRunner } from './runner.js';
 import { CourseView, Skyline, SpeedLines } from './world.js';
 import { RunAudio } from './audio.js';
-import { readHub, returnToHub, shouldShowArcadeMenu } from './hub.js';
+import { readHub, returnToHub, shouldShowArcadeMenu } from './hub.js?v=1.0.1';
 import { createGesture } from './gesture.js';
 
 const $ = (id) => document.getElementById(id);

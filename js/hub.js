@@ -1,7 +1,7 @@
 // CYBER ARCADE hub contract — game-specific readHub (trial caps) + kit returnToHub.
 // Launch URL: ?hub=1&tier=free|silver|gold&ads=0|1[&trial=1&trialLeft=N][&ret=<hub URL>]
 import { TRIAL } from './config.js';
-import { readHub as kitReadHub, returnToHub as kitReturnToHub, shouldShowArcadeMenu } from '../vendor/cyber-kit/platform/hub.js';
+import { readHub as kitReadHub, returnToHub as kitReturnToHub, shouldShowArcadeMenu } from '../vendor/cyber-kit/platform/hub.js?v=0.3.19';
 
 export { shouldShowArcadeMenu };
 
