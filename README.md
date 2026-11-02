@@ -25,7 +25,7 @@
 - 失手可以**原地復活**一次（App 版睇獎勵廣告；網頁版免費）。
 
 ## 語言 Language
-**繁體中文（香港）** / **English**，主畫面或暫停畫面撳「EN／中」切換，所有 CYBER 遊戲共用（`localStorage cyber.lang`）。網址 `?lang=en` / `?lang=zh` 亦可。
+**繁體中文（香港）** / **English**，齒輪設定或暫停畫面切換，所有 CYBER 遊戲共用（`localStorage cyber.lang`）。網址 `?lang=en` / `?lang=zh` 亦可。
 
 ## English
 **NEON STICK RUN** is a one-thumb 3D cyberpunk parkour runner. A glowing stickman free-runs across rainy Kowloon rooftops at night: **tap / swipe up** to jump (hold = higher, tap again = double jump), **swipe down** to slide, **swipe right** to dash and smash drones. Vaults, wall-runs and grapple swings trigger automatically when you jump at them. 12 short stages (60–120 s, 1–3 stars) plus a never-ending endless run with rising speed and a distance record. Spend data chips on cosmetic neon colours and trails. Bilingual with an in-game toggle.
@@ -37,7 +37,7 @@
 `?demo=1` 自動示範（`&level=N`、`&mode=endless`）· `?lang=en|zh` · `?fps=1` · `?quality=low` · `?adsim=1` · `?reset=1` · `?mute=1`
 
 ## 技術 Tech
-Three.js + [cyber-kit](https://github.com/fung2222/cyber-kit) v0.3.0（`vendor/cyber-kit/`），冇 build step。固定步長（1/90 s）純模擬（`js/sim.js`，可以喺 Node 測試）、程序生成天台、程序動畫火柴人骨架、全部音效即時合成。所有美術、文字同音效都係原創。
+Three.js + [cyber-kit](https://github.com/fung2222/cyber-kit) v0.3.19（`vendor/cyber-kit/`），冇 build step。固定步長（1/90 s）純模擬（`js/sim.js`，可以喺 Node 測試）、程序生成天台、程序動畫火柴人骨架、全部音效即時合成。所有美術、文字同音效都係原創。
 
 ## 開發 Development
 ```bash

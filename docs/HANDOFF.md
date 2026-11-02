@@ -2,7 +2,7 @@
 
 Status: **web build v1.0 — complete** (verified 2026-10-03) · live https://fung2222.github.io/neon-stick-run/ · auto-demo `?demo=1` · in the CYBER ARCADE `games.json` as tier Silver · not yet packaged for Android.
 Series rules: `fung2222/cyber-arcade/docs/ARCADE-HANDOFF.md` (master rules) and `docs/MONETIZATION.md` (tiers / hub contract). Tier: **Silver**.
-Everything here was written from scratch for this game on cyber-kit **v0.2.1** (vendored). No code from any older repo.
+Everything here was written from scratch for this game on cyber-kit **v0.3.19** (vendored). No code from any older repo.
 
 ## 1. Design in one paragraph
 A glowing neon stickman auto-runs along +x across procedurally generated rainy Kowloon rooftops. The player only chooses *timing*
@@ -113,7 +113,7 @@ js/gesture.js     one-thumb gestures + keyboard
 js/hub.js         hub params / entitlement / return-to-hub
 js/strings.js     zh-HK / en table (+ STAGE_NAMES)
 js/main.js        states, loop, events → FX, camera, HUD, saves, ads, QA API
-vendor/cyber-kit  cyber-kit v0.3.0 (do not edit here; update from the kit repo)
+vendor/cyber-kit  cyber-kit v0.3.19 (do not edit here; update from the kit repo)
 privacy.html      bilingual privacy policy
 tests/            sim.test.mjs (Node), smoke.py (Playwright)
 ```
