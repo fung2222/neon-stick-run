@@ -62,7 +62,7 @@ def start(pg, n):
     pg.evaluate("__nsr.api.autopilot(true)")
 
 with sync_playwright() as p:
-    b = p.chromium.launch(executable_path='/usr/bin/google-chrome', args=ARGS)
+    b = p.chromium.launch(args=ARGS)
     # ---------------------------------------------------------------- live playtest: every stage clears with the autopilot
     ctx, pg = page(b, 412, 915, '?lang=en&mute=1&reset=1&unlock=all')
     for n in range(1, 13):

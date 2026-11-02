@@ -59,7 +59,7 @@ FF_TO = """(t) => { const r = __nsr.run; const x0 = r.p.x + 14; let x = null;
   if (x == null) return false; __nsr.api.ff((x - r.p.x - 9) / Math.max(8, r.p.vx)); return true; }"""
 
 with sync_playwright() as p:
-    b = p.chromium.launch(executable_path='/usr/bin/google-chrome', args=ARGS)
+    b = p.chromium.launch(args=ARGS)
 
     # ---------------------------------------------------------------- A: phone, zh, touch
     ctx, pg = new_page(b, 412, 915, '?lang=zh&mute=1&reset=1')
