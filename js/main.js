@@ -1,6 +1,6 @@
 // NEON STICK RUN — one-thumb 3D neon stickman parkour across rainy Kowloon rooftops. 12 stages + endless.
 import * as THREE from 'three';
-import { i18n, t, flags, createStore, createStage, ThemeController, THEMES, U, Particles, Shockwaves, FxState, NeonCity, CyberUI, Platform, createAds } from 'cyber-kit';
+import { i18n, t, flags, createStore, createStage, ThemeController, THEMES, U, Particles, Shockwaves, FxState, NeonCity, CyberUI, Platform, createAds, bindStartLoading } from 'cyber-kit';
 import { GAME_ID, STEP, PHYS, STAGES, TRIAL, COLORS, TRAILS } from './config.js';
 import { createRun, step, extendWorld, revive as simRevive, createBot, simulate, runScore, starsOf, starTargets, speedAt, platsNear, obsNear, topOf } from './sim.js';
 import { STAGE_NAMES } from './strings.js';
@@ -11,6 +11,7 @@ import { readHub, returnToHub, shouldShowArcadeMenu } from './hub.js?v=1.0.1';
 import { createGesture } from './gesture.js';
 
 const $ = (id) => document.getElementById(id);
+bindStartLoading(['#btn-endless']);
 const store = createStore(GAME_ID);
 if (flags.reset) store.clear();
 const hub = readHub();
